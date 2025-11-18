@@ -1,15 +1,19 @@
-import { Text, TextInput, View } from 'react-native'
-import React from 'react'
-import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { TextInput, View } from 'react-native';
 
-const SearchBar = () => {
+interface Props {
+  placeholder: string;
+  onPress?: () => void;
+}
+
+const SearchBar = ({ placeholder, onPress }: Props) => {
   return (
-    <View className='flex-row items-center bg-dark-200 rounded-full px-5 py-4'>
-      <Ionicons name='search' size={24} />
+    <View style={{ flexDirection: 'row', alignItems: 'center' }} className='bg-dark-200 rounded-full px-5 py-4'>
+      <Ionicons name='search' size={22} />
       <TextInput 
-        onPress={() => {}}
-        placeholder='Search for movies, TV shows, genres, etc.'
+        onPress={onPress}
+        placeholder={placeholder}
         value=''
         onChangeText={() => {}}
         placeholderTextColor="#a8b5db"

@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import React from 'react';
 import SearchBar from '@/components/SearchBar';
+import { useRouter } from 'expo-router';
 
 const Index = () => {
+  const router = useRouter();
+
   return (
     <View className="flex-1 bg-purple-950">
       {/* Background Image */}
@@ -25,8 +28,11 @@ const Index = () => {
           resizeMode="contain"
         />
 
-        <View className='flex-1 mt-5'>
-          <SearchBar />
+        <View className='flex-roe mt-5'>
+          <SearchBar 
+            onPress={() => router.push('/(tabs)/search')}
+            placeholder='Search for movies'
+          />
         </View>
       </ScrollView>
     </View>
