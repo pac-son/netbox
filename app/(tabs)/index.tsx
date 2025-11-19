@@ -46,7 +46,7 @@ const Index = () => {
         ) : moviesError ? (
           <Text>Error: {moviesError?.message}</Text>
         ) : (
-          <View className='flex-roe mt-5'>
+          <View className='flex-1 mt-5'>
           <SearchBar 
             onPress={() => router.push('/(tabs)/search')}
             placeholder='Search for movies'
