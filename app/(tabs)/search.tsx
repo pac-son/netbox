@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, FlatList, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MovieCard from '@/components/MovieCard'
 import useFetch from '@/services/useFetch';
 import { fetchMovies } from '@/services/api';
@@ -12,7 +12,21 @@ const search = () => {
     data: movies,
     loading,
     error,
+    refetch: loadMovies,
+    reset
   } = useFetch(() => fetchMovies({ query: searchQuery }), false)
+
+  useEffect( () => {
+    const func = async () => {
+      if (searchQuery.trim()) {
+        await loadMovies();
+      } else {
+        reset()
+      }
+    }
+
+    func();
+  }, [searchQuery])
 
   return (
     <View className='flex-1 bg-primary'>
