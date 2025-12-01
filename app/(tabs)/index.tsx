@@ -5,9 +5,16 @@ import { useRouter } from 'expo-router';
 import useFetch from '@/services/useFetch';
 import { fetchMovies } from '@/services/api';
 import MovieCard from '@/components/MovieCard';
+import { getTrendingMovies } from '@/services/appwrite';
 
 const Index = () => {
   const router = useRouter();
+
+  const {
+    data: trendingMovies,
+    loading: trendingLoading,
+    error: trendingError
+  } = useFetch(getTrendingMovies)
 
   const {
     data: movies,
@@ -37,20 +44,37 @@ const Index = () => {
           resizeMode="contain"
         />
 
-        {Loading ?  (
+        {Loading || trendingLoading ?  (
           <ActivityIndicator 
             size='large'
             color='#0000ff'
             className='mt-10 self-center'
           />
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.message}</Text>
+        ) : moviesError || trendingError ? (
+          <Text>Error: {moviesError?.message || trendingError?.message}</Text>
         ) : (
           <View className='flex-1 mt-5'>
           <SearchBar 
             onPress={() => router.push('/(tabs)/search')}
             placeholder='Search for movies'
           />
+
+          {
+            trendingMovies && (
+              <View className='mt-10'>
+                <Text className='text-lg text-white font-bold mb-3'>Trending Movies</Text>
+
+                <FlatList 
+                  className='mt-4 mb-3'
+                  data={trendingMovies}
+                  renderItem={({item, index}) => (
+                    <Text className='text-white text-sm'>{item.title}</Text>
+                  )}
+                  keyExtractor={(item) => item.movie_id.toString()}
+                />
+              </View>
+            )
+          }
 
           <>
             <Text className='text-lg text-white font-bold mt-5 mb-3'>Latest Movies</Text>
